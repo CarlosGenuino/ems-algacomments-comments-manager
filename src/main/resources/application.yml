@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: comments-manager
+server:
+  port: 8080
