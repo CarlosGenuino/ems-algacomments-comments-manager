@@ -32,19 +32,19 @@ public class CommentController {
                             .text(input.getText())
                             .author(input.getAuthor())
                             .build();
-        commentRepository.saveAndFlush(entity);
         ModerationInput moderationInput = ModerationInput.builder()
-                .commentId(entity.getId().getValue().toString())
+                .commentId(entity.getId().toString())
                 .text(entity.getText())
                 .build();
         ModerationOutput moderation = moderationClient.approve(moderationInput);
 
-        if (!moderation.getApproved()){
+        if (Boolean.FALSE.equals(moderation.getApproved())){
+            commentRepository.delete(entity);
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-
+        commentRepository.saveAndFlush(entity);
         return CommentOutput.builder()
-                .id(entity.getId().getValue())
+                .id(entity.getId())
                 .text(entity.getText())
                 .author(entity.getAuthor())
                 .createdAt(entity.getCreatedAt())
@@ -57,7 +57,7 @@ public class CommentController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return CommentOutput.builder()
-                .id(entity.getId().getValue())
+                .id(entity.getId())
                 .text(entity.getText())
                 .author(entity.getAuthor())
                 .createdAt(entity.getCreatedAt())
@@ -69,7 +69,7 @@ public class CommentController {
         Page<Comment> entityPaged = commentRepository.findAll(pageable);
         return entityPaged.map(e -> CommentOutput
                                                 .builder()
-                                                .id(e.getId().getValue())
+                                                .id(e.getId())
                                                 .text(e.getText())
                                                 .author(e.getAuthor())
                                                 .createdAt(e.getCreatedAt())

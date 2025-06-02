@@ -26,8 +26,8 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.apache.commons:commons-lang3")
-	implementation("com.fasterxml.uuid:java-uuid-generator")
+	implementation("org.apache.commons:commons-lang3:3.17.0")
+	implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
